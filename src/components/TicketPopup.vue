@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       rawTickets: "",
-      modalActive: true
+      modalActive: false
     };
   },
   methods: {
