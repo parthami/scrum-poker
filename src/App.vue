@@ -1,28 +1,28 @@
 <template>
-    <!DOCTYPE html>
+  <!DOCTYPE html>
   <div id="app">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <PokerForm></PokerForm>
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Navbar />
+    <router-view></router-view>
+    <!-- <PokerForm></PokerForm> -->
   </div>
 </template>
 
 <script>
-import PokerForm from './components/PokerForm.vue'
-
+// import PokerForm from './components/PokerForm.vue';
+import Navbar from './components/Navbar.vue';
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    PokerForm
+    Navbar
+    // PokerForm
   }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
