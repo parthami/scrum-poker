@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <Navbar/>
     <div class="columns">
       <div class="column is-two-thirds">
         <div class="box">
@@ -18,16 +17,16 @@
         </div>
       </div>
       <div class="column">
-         <div class="box">
+        <div class="box">
           <ul class="list">
             <li
               class="list-item"
               v-for="item in list"
               v-bind:key="item"
-            >{{ item.name}} - {{item.storyPoints}} / {{item.timeEstimate}}</li>
+            >{{ item.name}} - {{item.storyPoints}} | {{item.timeEstimate}}</li>
           </ul>
-        <button class="button is-success">Add</button>
-    </div>  
+          <button class="button is-success">Add</button>
+        </div>
       </div>
     </div>
     <TicketPopup v-on:newTickets="list = $event"></TicketPopup>
@@ -37,7 +36,6 @@
 <script>
 import CardSelector from "./CardSelector";
 import TicketPopup from "./TicketPopup";
-import Navbar from "./Navbar"
 
 export default {
   data() {
@@ -45,13 +43,12 @@ export default {
       list: [],
       name: "",
       storyPoints: "",
-      timeEstimate: "",
+      timeEstimate: ""
     };
   },
   components: {
     CardSelector,
     TicketPopup,
-    Navbar,
   },
   methods: {
     saveEstimations() {
