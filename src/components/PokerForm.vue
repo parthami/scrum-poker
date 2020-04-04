@@ -4,10 +4,7 @@
       <div class="column is-two-thirds">
         <div class="box">
           <div class="field">
-            <label class="title">Ticket</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Text input" v-model="name" />
-            </div>
+            <label class="title">{{ name }}</label>
           </div>
           <CardSelector title="Story Points" v-model="storyPoints"></CardSelector>
           <br />
@@ -41,14 +38,14 @@ export default {
   data() {
     return {
       list: [],
-      name: "",
+      name: "SPARK-1234",
       storyPoints: "",
       timeEstimate: ""
     };
   },
   components: {
     CardSelector,
-    TicketPopup,
+    TicketPopup
   },
   methods: {
     saveEstimations() {
@@ -64,5 +61,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.container {
+  padding-top: 2rem;
+}
 </style>
