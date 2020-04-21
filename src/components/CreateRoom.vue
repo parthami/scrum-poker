@@ -3,8 +3,13 @@
     <div class="field">
       <label class="label">Room name</label>
       <div class="control">
-        <input class="input" type="text" placeholder="Platform Team" v-model="name" />
+        <input class="input" type="text" placeholder="e.g. Platform Team" v-model="name" />
       </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Initial ticket list</label>
+      <input class="input" type="text" placeholder="..." v-model="rawTickets" />
     </div>
     <div class="field">
       <div class="control">
@@ -14,29 +19,44 @@
         </label>
       </div>
     </div>
-      <div class="field">
-        <div class="control">
-          <button class="button is-link" @click="createRoom()">Submit</button>
-        </div>
+
+    <div class="field">
+      <div class="control">
+        <button class="button is-link" @click="createRoom()">Submit</button>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import { store } from "../store.js";
 
 export default {
-    data() {
-        return {
-            name: ''
-        };
-    },
-    methods: {
-        createRoom() {
-            store.createRoom(this.name);
-            this.$router.push('room');
-        }
-    },
+  data() {
+    return {
+      name: "",
+      rawTickets: null
+    };
+  },
+  methods: {
+    createRoom() {
+      var ticketList = this.rawTickets.toString().split(",");
+      var tickets = [];
+
+      for (let key = 0; key < ticketList.length; key++){
+        tickets.push({
+          key: key,
+          name: ticketList[key],
+          storyPoints: "",
+          timeEstimate: ""
+        })
+      }
+
+      store.createRoom(this.name, tickets);
+
+      this.$router.push("room/" + this.name);
+    }
+  }
 };
 </script>
 
