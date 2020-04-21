@@ -5,5 +5,5 @@ import Home  from'./components/Home.vue';
 export const routes = [
     { path: '/', component: Home },
     { path: '/create', component: CreateRoom},
-    { path: '/room', component: PokerForm },
+    { path: '/room/:id', component: PokerForm },
 ];
