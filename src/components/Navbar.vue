@@ -36,9 +36,17 @@ export default {
   },
   methods: {
     signIn() {
-      firebase.auth().signInAnonymously();
-      this.uid = store.currentUser.uid;
-    },
+      firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(function() {
+          firebase.auth().signInAnonymously();
+          
+        })
+        .catch(function() {
+        });
+        this.uid = store.currentUser.uid;
+    }
   }
 };
 </script>
