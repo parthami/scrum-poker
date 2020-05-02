@@ -10,17 +10,20 @@
         <div class="box">
           <p class="title is-4">{{ roomName }}</p>
           <p class="subtitle is-6">Admin: {{ admin}}</p>
-          <ul class="list">
-            <li
-              class="list-item"
-              v-for="item in list"
-              v-bind:key="item.key"
-            >
-            <span v-if="currentTicket.key == item.key">(X)</span>
-            
-              {{ item.name}} - {{item.storyPoints}} | {{item.timeEstimate}}
-            </li>
-          </ul>
+        </div>
+        <div class="box">
+          <aside class="menu">
+            <template v-for="item in list">
+              <p class="menu-label" v-bind:key="item.key">{{ item.name }}</p>
+              <span  v-if="item.key == currentTicket.key" v-bind:key="item.key"></span>
+              <!-- <div v-if="this.currentTicket.key == item.key" class="circle" v-bind:key="item.key"></div> -->
+              <ul class="menu-list" v-for="item in item.estimates" v-bind:key="item.key">
+                <li>{{item.storyPoints}} | {{item.timeEstimate}} ({{item.user}})</li>
+              </ul>
+            </template>
+          </aside>
+        </div>
+        <div class="box">
           <button class="button is-success">Add</button>
         </div>
       </div>
@@ -79,14 +82,14 @@ export default {
     updateTickets() {
       if (this.hasLoaded) {
         store.updateTickets(this.roomName, this.list);
-        this.currentTicket = this.list[this.currentTicket.key+1];
+        this.currentTicket = this.list[this.currentTicket.key + 1];
       }
     }
   },
   created() {
     this.getRoomDetails();
     this.hasLoaded = true;
-  },
+  }
 };
 </script>
 
@@ -94,5 +97,20 @@ export default {
 .container {
   padding-top: 2rem;
   text-align: center;
+}
+
+aside {
+  text-align: left;
+}
+
+.menu-label {
+  font-size: 1em;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background: lightgreen;
+  border-radius: 50%;
 }
 </style>

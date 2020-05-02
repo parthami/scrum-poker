@@ -31,6 +31,19 @@ export default {
       this.value.storyPoints = this.storyPoints;
       this.value.timeEstimate = this.timeEstimate;
       this.value.user = store.currentUser.uid;
+      
+      /* eslint no-console: 0*/
+      console.log(typeof this.value.estimates);
+      // if(this.value.estimations == null){
+      //   this.value.estimations = [];
+      // }
+
+      this.value.estimates = this.value.estimates.concat({
+        key: this.value.key,
+        user: store.currentUser.uid,
+        storyPoints: this.storyPoints,
+        timeEstimate: this.timeEstimate
+      });
       this.$emit("refined", this.value);
     }
   }
