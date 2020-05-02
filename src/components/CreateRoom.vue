@@ -21,10 +21,11 @@
     </div>
 
     <div class="field">
-      <div class="control">
-        <button class="button is-link" @click="createRoom()">Submit</button>
+      <div class="control has-text-centered">
+        <button class="button is-success is-outlined" @click="createRoom()">Start!</button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -48,7 +49,8 @@ export default {
           key: key,
           name: ticketList[key],
           storyPoints: "",
-          timeEstimate: ""
+          timeEstimate: "",
+          estimates: []
         })
       }
 
@@ -62,6 +64,6 @@ export default {
 
 <style scoped>
 .container {
-  padding-top: 2rem;
+  padding-top: 4rem;
 }
 </style>

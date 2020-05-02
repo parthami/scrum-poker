@@ -3,7 +3,7 @@ import CreateRoom  from'./components/CreateRoom.vue';
 import Home  from'./components/Home.vue';
 
 export const routes = [
-    { path: '/', component: Home },
+    { name: 'home', path: '/', component: Home },
     { path: '/create', component: CreateRoom},
     { path: '/room/:id', component: PokerForm },
 ];
