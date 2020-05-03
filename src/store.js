@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { firebaseConfig } from './config.js'
+import { firebaseConfig } from './config.js';
+// var firebaseui = require('firebaseui');
 
 /* eslint-disable no-console*/
 
@@ -57,18 +58,47 @@ export const store = {
   }),
 }
 
-roomsCollection.onSnapshot((roomRef) => {
-  const rooms = [];
-  roomRef.forEach((doc) => {
-    const room = doc.data();
-    room.id = doc.id;
-    room.name = doc.name;
-    rooms.push(room);
-  });
-  /* eslint no-console: 0*/
-  console.log('Received Balls feed:', rooms);
-  store.rooms = rooms;
-});
+// roomsCollection.onSnapshot((roomRef) => {
+//   const rooms = [];
+//   roomRef.forEach((doc) => {
+//     const room = doc.data();
+//     room.id = doc.id;
+//     room.name = doc.name;
+//     rooms.push(room);
+//   });
+//   /* eslint no-console: 0*/
+//   console.log('Received Balls feed:', rooms);
+//   store.rooms = rooms;
+// });
+
+
+// var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+// var uiConfig = {
+//   callbacks: {
+//     signInSuccessWithAuthResult: function(authResult) {
+//       // User successfully signed in.
+//       // Return type determines whether we continue the redirect automatically
+//       // or whether we leave that to developer to handle.
+//       if (authResult) {
+//         store.currentUser = user;
+//       }
+//       return true;
+//     },
+//     // uiShown: function() {
+//     //   // The widget is rendered.
+//     //   // Hide the loader.
+//     //   document.getElementById('loader').style.display = 'none';
+//     // }
+//   },
+//   signInFlow: 'popup',
+//   signInSuccessUrl: '/create',
+//   signInOptions: [
+//     firebase.auth.EmailAuthProvider.PROVIDER_ID,
+//   ],
+// };
+
+// ui.start('#firebaseui-auth-container', uiConfig);
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
