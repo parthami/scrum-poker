@@ -12,6 +12,7 @@
             <a class="button is-primary">
               <strong @click="signIn()">{{ uid }}</strong>
             </a>
+            <div id="firebaseui-auth-container"></div>
             <router-link to="/create">
               <a class="button is-primary">
                 <strong>Create Room</strong>
@@ -52,6 +53,7 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap");
+@import "~firebaseui/dist/firebaseui.css";
 
 #logo {
   font-family: "Oswald", sans-serif;
