@@ -29,4 +29,8 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.container {
+  padding-top: 4rem;
+}
 </style>

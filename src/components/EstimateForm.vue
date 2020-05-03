@@ -3,6 +3,7 @@
     <div class="field">
       <label class="title">{{ value.name }}</label>
     </div>
+    <hr/>
     <CardSelector title="Story Points" v-model="storyPoints"></CardSelector>
     <br />
     <CardSelector title="Time Estimate" v-model="timeEstimate"></CardSelector>
@@ -50,5 +51,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.section {
+    padding: 2rem 1.5rem;
+}
 </style>
