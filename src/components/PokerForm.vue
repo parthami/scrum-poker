@@ -10,25 +10,26 @@
         <div class="box">
           <p class="title is-4">{{ roomName }}</p>
           <p class="subtitle is-6">Admin: {{ admin}}</p>
+          <div class="button is-link" @click="showShareModal = !showShareModal">Share</div>
         </div>
-        <div class="box">
-          <aside class="menu">
-            <template v-for="item in list">
-              <p class="menu-label" v-bind:key="item.key">{{ item.name }}</p>
-              <span  v-if="item.key == currentTicket.key" v-bind:key="item.key"></span>
-              <!-- <div v-if="this.currentTicket.key == item.key" class="circle" v-bind:key="item.key"></div> -->
-              <ul class="menu-list" v-for="item in item.estimates" v-bind:key="item.key">
-                <li>{{item.storyPoints}} | {{item.timeEstimate}} ({{item.user}})</li>
-              </ul>
-            </template>
-          </aside>
-        </div>
+        <aside class="list">
+          <template v-for="item in list">
+            <div class="list-item is-active" v-bind:key="item.key">
+              {{ item.name }}
+              <!-- <div v-if="currentTicket.key == item.key" class="circle" v-bind:key="item.key"></div> -->
+            </div>
+            <ul class="list-item" v-for="item in item.estimates" v-bind:key="item.key">
+              <li>{{item.storyPoints}} | {{item.timeEstimate}} ({{item.user}})</li>
+            </ul>
+          </template>
+        </aside>
         <div class="box">
           <button class="button is-success">Add</button>
         </div>
       </div>
     </div>
     <TicketPopup v-on:newTickets="list = $event"></TicketPopup>
+    <ShareComponent v-if="showShareModal" v-on:closeModal="showShareModal = $event"/>
   </div>
 </template>
 
@@ -49,12 +50,14 @@ export default {
       admin: "Parth",
       storyPoints: "",
       timeEstimate: "",
-      hasLoaded: false
+      hasLoaded: false,
+      showShareModal: false
     };
   },
   components: {
     // CardSelector,
     TicketPopup,
+    ShareComponent: () => import("./ShareComponent"),
     EstimateForm: () => import("./EstimateForm")
   },
   methods: {
@@ -95,8 +98,12 @@ export default {
 
 <style scoped>
 .container {
-  padding-top: 2rem;
   text-align: center;
+}
+
+.list-item.is-active {
+  background-color: #567fc1;
+  color: #fff;
 }
 
 aside {
