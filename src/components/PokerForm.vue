@@ -14,13 +14,15 @@
         </div>
         <aside class="list">
           <template v-for="item in list">
-            <div class="list-item is-active" v-bind:key="item.key">
+            <div class="list-item is-active" :key="item.name">
               {{ item.name }}
               <!-- <div v-if="currentTicket.key == item.key" class="circle" v-bind:key="item.key"></div> -->
             </div>
-            <ul class="list-item" v-for="item in item.estimates" v-bind:key="item.key">
-              <li>{{item.storyPoints}} | {{item.timeEstimate}} ({{item.user}})</li>
-            </ul>
+            <transition-group name="slide-left" tag="ul" :key="'t'+item.key">
+              <ul class="list-item" v-for="estimate in item.estimates" :key="item.name+''+estimate.user">
+                <li>{{estimate.storyPoints}} | {{estimate.timeEstimate}} ({{estimate.user}})</li>
+              </ul>
+            </transition-group>
           </template>
         </aside>
         <div class="box">
@@ -29,7 +31,7 @@
       </div>
     </div>
     <TicketPopup v-on:newTickets="list = $event"></TicketPopup>
-    <ShareComponent v-if="showShareModal" v-on:closeModal="showShareModal = $event"/>
+    <ShareComponent :visible="showShareModal" v-on:closeModal="showShareModal = $event"/>
   </div>
 </template>
 
@@ -119,5 +121,19 @@ aside {
   height: 10px;
   background: lightgreen;
   border-radius: 50%;
+}
+
+.slide-left-enter-active, .slide-left-leave-active {
+  transition:  all 1s ease;
+}
+
+.slide-left-enter, .slide-left-leave {
+  transform: translateX(10px);
+  opacity: 0;
+  color: green;
+}
+
+.slide-left-move {
+  transition: all 1s;
 }
 </style>
