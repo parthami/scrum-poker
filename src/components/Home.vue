@@ -26,7 +26,18 @@
       </div>
     </section>
     <section class="section">
-      <span>Here's how it works!</span>
+      <span>Built with</span>
+      <nav class="level">
+        <div class="level-item">
+          <img class='logo' src="../assets/bulma.png"/>
+        </div>
+        <div class="level-item">
+          <img class='logo' src="../assets/vuejs.png"/>
+        </div>
+        <div class="level-item">
+          <img class='logo' src="../assets/firebase.png"/>
+        </div>
+      </nav>
     </section>
   </div>
 </template>
@@ -105,5 +116,10 @@ div[class*='suit']:after {
   -o-transform: rotate(-30deg);
   -ms-transform: rotate(-30deg);
   transform: rotate(-30deg);
+}
+
+.logo{
+  max-height: 100px;
+  max-width: 200px;
 }
 </style>
