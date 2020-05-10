@@ -4,7 +4,7 @@
     <div class="field">
       <div class="columns is-desktop is-multiline is-centered">
         <p class="column is-1" v-for="cardValue in cardValues" v-bind:key="cardValue">
-          <button v-on:click="cardSelected(cardValue)" :class="[buttonClass, {'is-link': selectedButtonId == cardValue}]">{{cardValue}}</button>
+          <button @click.prevent="cardSelected(cardValue)" :class="[buttonClass, {'is-link': value == cardValue}]">{{cardValue}}</button>
         </p>
       </div>
     </div>
@@ -13,17 +13,15 @@
 
 <script>
 export default {
-  props: ["title"],
+  props: ["title", "value"],
   data() {
     return {
       buttonClass: 'button',
-      selectedButtonId: null,
       cardValues: ["?", "0", "1", "2", "3", "5", "8", "13"]
     };
   },
   methods: {
     cardSelected(cardValue) {
-      this.selectedButtonId = cardValue;
       this.$emit("input", cardValue);
     }
   }
