@@ -2,36 +2,49 @@
   <div class="container">
     <div class="columns">
       <div class="column is-two-thirds">
-        <div class="box">
-          <EstimateForm v-model="currentTicket" v-if="hasLoaded" v-on:refined="updateTickets"></EstimateForm>
+        <div class="box main">
+          <transition name="fade" mode="out-in">
+            <template v-if="!refinedAllTickets">
+              <EstimateForm v-model="currentTicket" v-if="hasLoaded" v-on:refined="updateTickets"></EstimateForm>
+            </template>
+            <template v-else>
+              <CompletedComponent key="2"></CompletedComponent>
+            </template>
+          </transition>
         </div>
       </div>
       <div class="column">
         <div class="box">
           <p class="title is-4">{{ roomName }}</p>
-          <p class="subtitle is-6">Admin: {{ admin}}</p>
+          <p class="subtitle is-6">Admin: {{ admin }}</p>
           <div class="button is-link" @click="showShareModal = !showShareModal">Share</div>
         </div>
-        <aside class="list">
-          <template v-for="item in list">
-            <div class="list-item is-active" :key="item.name">
-              {{ item.name }}
-              <!-- <div v-if="currentTicket.key == item.key" class="circle" v-bind:key="item.key"></div> -->
-            </div>
-            <transition-group name="slide-left" tag="ul" :key="'t'+item.key">
-              <ul class="list-item" v-for="estimate in item.estimates" :key="item.name+''+estimate.user">
-                <li>{{estimate.storyPoints}} | {{estimate.timeEstimate}} ({{estimate.user}})</li>
-              </ul>
-            </transition-group>
-          </template>
-        </aside>
+        <template v-if="!hasLoaded">
+          <progress class="progress is-small is-primary" max="100">15%</progress>
+        </template>
+        <template v-else>
+          <aside class="list">
+            <template v-for="item in list">
+              <div class="list-item is-active" :key="item.name">{{ item.name }}</div>
+              <transition-group name="slide-left" tag="ul" :key="'t'+item.key">
+                <ul
+                  class="list-item"
+                  v-for="estimate in item.estimates"
+                  :key="item.name+''+estimate.user"
+                >
+                  <li>{{estimate.storyPoints}} | {{estimate.timeEstimate}} ({{estimate.user}})</li>
+                </ul>
+              </transition-group>
+            </template>
+          </aside>
+        </template>
         <div class="box">
           <button class="button is-success">Add</button>
         </div>
       </div>
     </div>
     <TicketPopup v-on:newTickets="list = $event"></TicketPopup>
-    <ShareComponent :visible="showShareModal" v-on:closeModal="showShareModal = $event"/>
+    <ShareComponent :visible="showShareModal" v-on:closeModal="showShareModal = $event" />
   </div>
 </template>
 
@@ -60,6 +73,7 @@ export default {
     // CardSelector,
     TicketPopup,
     ShareComponent: () => import("./ShareComponent"),
+    CompletedComponent: () => import("./CompletedComponent"),
     EstimateForm: () => import("./EstimateForm")
   },
   methods: {
@@ -83,6 +97,7 @@ export default {
       this.roomName = data.name;
       this.listPointer = 0;
       this.currentTicket = this.list[this.listPointer];
+      store.updateVisitedRooms(this.roomName);
     },
     updateTickets() {
       if (this.hasLoaded) {
@@ -92,8 +107,27 @@ export default {
     }
   },
   created() {
-    this.getRoomDetails();
-    this.hasLoaded = true;
+    this.getRoomDetails().then(() => {
+      this.hasLoaded = true;
+    });
+  },
+  computed: {
+    refinedAllTickets() {
+      let estimatedTicketsCount = 0;
+      for (let ticket of this.list) {
+        for (let estimate of ticket.estimates) {
+          /* eslint no-console: 0*/
+          console.log(estimate.user);
+          console.log(store.currentUser.uid);
+          if (estimate.user == store.currentUser.uid) {
+            estimatedTicketsCount++;
+          }
+        }
+      }
+      /* eslint no-console: 0*/
+      console.log(estimatedTicketsCount);
+      return estimatedTicketsCount == this.list.length && this.list.length > 0;
+    }
   }
 };
 </script>
@@ -123,11 +157,17 @@ aside {
   border-radius: 50%;
 }
 
-.slide-left-enter-active, .slide-left-leave-active {
-  transition:  all 1s ease;
+.main {
+  min-height: 550px;
 }
 
-.slide-left-enter, .slide-left-leave {
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 1s ease;
+}
+
+.slide-left-enter,
+.slide-left-leave {
   transform: translateX(10px);
   opacity: 0;
   color: green;
@@ -135,5 +175,15 @@ aside {
 
 .slide-left-move {
   transition: all 1s;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
