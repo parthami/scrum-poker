@@ -33,6 +33,7 @@ class Room {
   
 
 const roomsCollection = firebase.firestore().collection('rooms');
+const visitedRoomsCollection = firebase.firestore().collection('visitedRooms');
 
 export const store = {
   rooms: null,
@@ -55,6 +56,15 @@ export const store = {
     console.log(name);
     console.log(tickets);
     console.error(error);
+  }),
+  createVisitedRooms: () => visitedRoomsCollection.doc(store.currentUser.uid).set({rooms: {}}),
+  getVisitedRooms: () => visitedRoomsCollection.doc('hcKtwIrSPHRndAXIIWJXeoAui612').get().then(function (doc){
+    if(doc.exists) {
+      return doc.data()
+    }
+  }),
+  updateVisitedRooms: (roomName) => visitedRoomsCollection.doc('hcKtwIrSPHRndAXIIWJXeoAui612').update({
+    ['rooms.'+roomName]: Date.now()
   }),
 }
 
