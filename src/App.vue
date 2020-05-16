@@ -4,18 +4,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Navbar />
     <router-view></router-view>
-    <!-- <PokerForm></PokerForm> -->
   </div>
 </template>
 
 <script>
-// import PokerForm from './components/PokerForm.vue';
-import Navbar from './components/Navbar.vue';
+import Navbar from "./components/Navbar.vue";
 export default {
   name: "app",
   components: {
     Navbar
-    // PokerForm
+  },
+  methods: {
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+    }
   }
 };
 </script>
