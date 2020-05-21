@@ -16,7 +16,7 @@
       <div class="column">
         <div class="box">
           <p class="title is-4">{{ roomName }}</p>
-          <p class="subtitle is-6">Admin: {{ admin }}</p>
+          <p class="subtitle is-6">Room owner: {{ admin }}</p>
           <div class="button is-link" @click="showShareModal = !showShareModal">Share</div>
         </div>
         <template v-if="!hasLoaded">
@@ -118,8 +118,8 @@ export default {
         for (let estimate of ticket.estimates) {
           /* eslint no-console: 0*/
           console.log(estimate.user);
-          console.log(store.currentUser.uid);
-          if (estimate.user == store.currentUser.uid) {
+          console.log(store.currentUser.displayName);
+          if (estimate.user == store.currentUser.displayName) {
             estimatedTicketsCount++;
           }
         }

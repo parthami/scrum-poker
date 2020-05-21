@@ -1,4 +1,5 @@
 <template>
+  <transition appear name="fade">
     <div class="container">
       <div class="field">
         <label class="label">Room name</label>
@@ -11,21 +12,18 @@
         <label class="label">Initial ticket list</label>
         <input class="input" type="text" placeholder="..." v-model="rawTickets" />
       </div>
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" />
-            Lock room?
-          </label>
-        </div>
-      </div>
 
       <div class="field">
         <div class="control has-text-centered">
-          <button class="button is-success is-outlined" @click="createRoom()">Start!</button>
+          <button
+            :disabled="isDisabled"
+            class="button is-success is-outlined"
+            @click="createRoom()"
+          >Start!</button>
         </div>
       </div>
     </div>
+  </transition>
 </template>
 
 <script>
@@ -35,7 +33,7 @@ export default {
   data() {
     return {
       name: "",
-      rawTickets: null
+      rawTickets: ""
     };
   },
   methods: {
@@ -52,10 +50,15 @@ export default {
           estimates: []
         });
       }
-
       store.createRoom(this.name, tickets);
+      store.createVisitedRooms();
 
-      this.$router.push("room/" + this.name);
+      this.$router.push({ name: "room", params: { id: this.name } });
+    }
+  },
+  computed: {
+    isDisabled() {
+      return this.rawTickets == "" || this.name == "";
     }
   }
 };
@@ -64,5 +67,17 @@ export default {
 <style scoped>
 .container {
   padding-top: 4rem;
+}
+
+.button {
+  width: 50%;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
 }
 </style>
