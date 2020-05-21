@@ -6,7 +6,9 @@
           <div class="columns">
             <div class="column is-two-thirds">
               <h1 class="title">Looking to estimate some tickets?</h1>
-              <h2 class="subtitle">Use Scrum Poker to quickly estimate a bunch of tickets with our easy to use UI!</h2>
+              <h2
+                class="subtitle"
+              >Use Scrum Poker to quickly estimate a bunch of tickets with our easy to use UI!</h2>
             </div>
             <div class="column is-one-third">
               <div class="cards">
@@ -26,16 +28,15 @@
       </div>
     </section>
     <section class="section">
-      <span>Built with</span>
       <nav class="level">
         <div class="level-item">
-          <img class='logo' src="../assets/bulma.png"/>
+          <img class="logo" src="../assets/bulma.png" />
         </div>
         <div class="level-item">
-          <img class='logo' src="../assets/vuejs.png"/>
+          <img class="logo" src="../assets/vuejs.png" />
         </div>
         <div class="level-item">
-          <img class='logo' src="../assets/firebase.png"/>
+          <img class="logo" src="../assets/firebase.png" />
         </div>
       </nav>
     </section>
@@ -55,8 +56,8 @@ export default {};
   height: 220px;
   border-radius: 10px;
   background: #fff;
-  -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
-  box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
 }
 
 .card p {
@@ -64,19 +65,20 @@ export default {};
   font: 100px/220px Georgia, Times New Roman, serif;
 }
 
-.suitdiamonds:before, .suitdiamonds:after {
+.suitdiamonds:before,
+.suitdiamonds:after {
   content: "♦";
   color: #4a4a4a;
 }
 
-div[class*='suit']:before {
+div[class*="suit"]:before {
   position: absolute;
   font-size: 35px;
   left: 5px;
   top: -5px;
 }
- 
-div[class*='suit']:after {
+
+div[class*="suit"]:after {
   position: absolute;
   font-size: 35px;
   right: 5px;
@@ -88,7 +90,7 @@ div[class*='suit']:after {
   height: 250px;
   position: relative;
 }
- 
+
 .cards > .card {
   position: absolute;
   top: 0;
@@ -96,30 +98,56 @@ div[class*='suit']:after {
 }
 
 .cards .rotate1 {
-  -webkit-transform: rotate(-10deg);
-  -moz-transform: rotate(-10deg);
-  -o-transform: rotate(-10deg);
-  -ms-transform: rotate(-10deg);
-  transform: rotate(-10deg);
+  /* animation: rotate10 0.5s; */
+  /* animation-fill-mode: forwards; */
+  
 }
 
 .cards .rotate2 {
-  -webkit-transform: rotate(-20deg);
-  -moz-transform: rotate(-20deg);
-  -o-transform: rotate(-20deg);
-  -ms-transform: rotate(-20deg);
-  transform: rotate(-20deg);
+  /* top: 10px; */
+  animation: rotate10 1s;
+  transform-origin: bottom left;
+  animation-fill-mode: forwards;
 }
 .cards .rotate3 {
-  -webkit-transform: rotate(-30deg);
-  -moz-transform: rotate(-30deg);
-  -o-transform: rotate(-30deg);
-  -ms-transform: rotate(-30deg);
-  transform: rotate(-30deg);
+  /* top: 20px; */
+  animation: rotate20 1.5s;
+  transform-origin: bottom left;
+  animation-fill-mode: forwards;
 }
 
-.logo{
-  max-height: 100px;
+@keyframes rotate10 {
+  100% {
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes rotate20 {
+  100% {
+    -webkit-transform: rotate(-20deg);
+    -moz-transform: rotate(-20deg);
+    -o-transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    transform: rotate(-20deg);
+  }
+}
+
+@keyframes rotate30 {
+  100% {
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+  }
+}
+
+.logo {
+  max-height: 200px;
   max-width: 200px;
 }
 </style>
