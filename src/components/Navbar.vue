@@ -13,16 +13,15 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
-              <strong @click="signIn()">{{ uid }}</strong>
-            </a>
-            <div id="firebaseui-auth-container"></div>
+            <div @click="signIn" class="button is-primary">
+              <strong>{{ uid }}</strong>
+            </div>
 
-            <router-link to="/create" class="button is-primary">
+            <router-link :to="{name: 'create'}" class="button is-primary">
               <strong>Create Room</strong>
             </router-link>
 
-            <router-link to="/dashboard" class="button is-primary">
+            <router-link :to="{name: 'visited'}" class="button is-primary">
               <strong>Dashboard</strong>
             </router-link>
           </div>
@@ -34,28 +33,25 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import "firebase/auth";
 import { store } from "../store.js";
+
+/* eslint-disable no-console*/
 
 export default {
   data() {
     return {
-      uid: "Sign in"
+      uid: "Sign in",
     };
   },
   methods: {
     signIn() {
-      firebase
-        .auth()
-        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-        .then(function() {
-          firebase.auth().signInAnonymously();
-        });
-      store.createVisitedRooms();
-      this.uid = store.currentUser.uid;
+      if(store.currentUser) {
+        this.uid = store.currentUser.displayName;
+      } else {
+        this.$router.push({ name: "signInUp"});
+      }
     }
-  }
+  },
 };
 </script>
 

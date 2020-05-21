@@ -40,7 +40,7 @@ export default {
     saveEstimations() {
       this.value.storyPoints = this.storyPoints;
       this.value.timeEstimate = this.timeEstimate;
-      this.value.user = store.currentUser.uid;
+      this.value.user = store.currentUser.displayName;
 
       /* eslint no-console: 0*/
       console.log(typeof this.value.estimates);
@@ -50,7 +50,7 @@ export default {
 
       this.value.estimates = this.value.estimates.concat({
         key: this.value.key,
-        user: store.currentUser.uid,
+        user: store.currentUser.displayName,
         storyPoints: this.storyPoints,
         timeEstimate: this.timeEstimate
       });
