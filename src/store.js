@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { firebaseConfig } from './config.js';
-// var firebaseui = require('firebaseui');
+var firebaseui = require('firebaseui');
 
 /* eslint-disable no-console*/
 
@@ -39,7 +39,7 @@ export const store = {
   rooms: null,
   currentUser: null,
   createRoom: (name, tickets) => roomsCollection.doc(name).withConverter(roomConverter).set(
-    new Room (name, tickets, store.currentUser.uid)
+    new Room (name, tickets, store.currentUser.displayName)
   ),
   get: (id) => roomsCollection.doc(id).withConverter(roomConverter).get().then(function (doc) {
     if (doc.exists) {
@@ -57,15 +57,17 @@ export const store = {
     console.log(tickets);
     console.error(error);
   }),
-  createVisitedRooms: () => visitedRoomsCollection.doc(store.currentUser.uid).set({rooms: {}}),
-  getVisitedRooms: () => visitedRoomsCollection.doc('hcKtwIrSPHRndAXIIWJXeoAui612').get().then(function (doc){
+  createVisitedRooms: () => visitedRoomsCollection.doc(store.currentUser.displayName).set({rooms: {}}),
+  getVisitedRooms: () => visitedRoomsCollection.doc(store.currentUser.displayName).get().then(function (doc){
     if(doc.exists) {
       return doc.data()
     }
   }),
-  updateVisitedRooms: (roomName) => visitedRoomsCollection.doc('hcKtwIrSPHRndAXIIWJXeoAui612').update({
+  updateVisitedRooms: (roomName) => visitedRoomsCollection.doc(store.currentUser.displayName).update({
     ['rooms.'+roomName]: Date.now()
   }),
+  startFirebaseUi: () => ui.start('#firebaseui-auth-container', uiConfig),
+  getFirebase: () => {return firebase;}
 }
 
 // roomsCollection.onSnapshot((roomRef) => {
@@ -82,36 +84,36 @@ export const store = {
 // });
 
 
-// var ui = new firebaseui.auth.AuthUI(firebase.auth());
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-// var uiConfig = {
-//   callbacks: {
-//     signInSuccessWithAuthResult: function(authResult) {
-//       // User successfully signed in.
-//       // Return type determines whether we continue the redirect automatically
-//       // or whether we leave that to developer to handle.
-//       if (authResult) {
-//         store.currentUser = user;
-//       }
-//       return true;
-//     },
-//     // uiShown: function() {
-//     //   // The widget is rendered.
-//     //   // Hide the loader.
-//     //   document.getElementById('loader').style.display = 'none';
-//     // }
-//   },
-//   signInFlow: 'popup',
-//   signInSuccessUrl: '/create',
-//   signInOptions: [
-//     firebase.auth.EmailAuthProvider.PROVIDER_ID,
-//   ],
-// };
-
-// ui.start('#firebaseui-auth-container', uiConfig);
+var uiConfig = {
+  callbacks: {
+    signInSuccessWithAuthResult: function(authResult) {
+      // User successfully signed in.
+      // Return type determines whether we continue the redirect automatically
+      // or whether we leave that to developer to handle.
+      if (authResult) {
+        console.log(authResult);
+        // store.currentUser = user;
+      }
+      return false;
+    },
+    uiShown: function() {
+      // The widget is rendered.
+      // Hide the loader. 
+      document.getElementById('loader').style.display = 'none';
+    }
+  },
+  signInFlow: 'popup',
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  ],
+};
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
+    console.log(user);
     store.currentUser = user;
   } else {
     // Sign in failed
