@@ -89,9 +89,15 @@ export default {
       // console.log(store.get(.));
     },
     async getRoomDetails() {
-      const data = await store.get(this.roomName);
-      /* eslint no-console: 0*/
-      console.log("Got room details");
+      const data = await store
+      .get(this.roomName)
+      .then(data => {
+        if (data == null) {
+          return this.$router.push('/404');
+        }
+        return data;
+      });
+
       this.admin = data.admin;
       this.list = data.tickets;
       this.roomName = data.name;

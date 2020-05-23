@@ -5,14 +5,16 @@
         <div id="firebaseui-auth-container"></div>
       </div>
       <div class="column has-text-centered is-centered right">
-        <div class="welcome" v-if="room == null">
-          <h1 class="has-text-white">Welcome!</h1>
-        </div>
-        <div v-else class="text">
-          <h1 class="shift-left has-text-white">Trying to join</h1>
-          <h1 class="has-text-white">the {{ room }} room?</h1>
-          <h1 class="shift-right has-text-white">Sign up!</h1>
-        </div>
+        <transition appear>
+          <div class="welcome" v-if="room == null">
+            <h1 class="has-text-white">Welcome!</h1>
+          </div>
+          <div v-else class="text">
+            <h1 class="shift-left has-text-white">Trying to join</h1>
+            <h1 class="has-text-white">the {{ room }} room?</h1>
+            <h1 class="shift-right has-text-white">Sign up!</h1>
+          </div>
+        </transition>
       </div>
     </div>
   </section>
@@ -26,21 +28,18 @@ export default {
   mounted() {
     store.startFirebaseUi();
 
-    store.getFirebase().auth().onAuthStateChanged((user) =>  {
-      /* eslint-disable no-console*/
-      console.log('state change');
-      if(user) {
-        if(this.room) {
-          /* eslint-disable no-console*/
-          console.log('had room redirect');
-          this.$router.push({name: 'room', params: {id: this.room}});
-        } else {
-          /* eslint-disable no-console*/
-          // console.log('create a room redirect');
-          this.$router.push({ name: 'create'});
+    store
+      .getFirebase()
+      .auth()
+      .onAuthStateChanged(user => {
+        if (user) {
+          if (this.room) {
+            this.$router.push({ name: "room", params: { id: this.room } });
+          } else {
+            this.$router.push({ name: "create" });
+          }
         }
-      }
-    });
+      });
   }
 };
 </script>
@@ -67,7 +66,6 @@ h1 {
   padding-top: 30vh;
 }
 
-
 .welcome {
   padding-top: 35vh;
 }
@@ -77,7 +75,7 @@ h1 {
 }
 
 .shift-left {
-  padding-right: 5rem;
+  padding-right: 15rem;
 }
 
 .shift-right {
@@ -85,6 +83,17 @@ h1 {
 }
 
 .right {
-  background-color: #00d1b2;
+  background-color: #3273dc;
+}
+
+.v-enter-active,
+.v-fade-leave-active {
+  transition: all .5s ease;
+}
+
+.v-enter,
+.v-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.5);
 }
 </style>
