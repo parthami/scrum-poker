@@ -48,6 +48,7 @@ export const store = {
       return room;
     } else {
       console.log("No such document!");
+      return null;
     }
   }),
   updateTickets: (name, tickets) => firebase.firestore().batch().update((roomsCollection.doc(name)), {tickets}).commit().then(function () {
