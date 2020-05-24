@@ -78,22 +78,16 @@ export default {
   },
   methods: {
     saveEstimations() {
-      var ticket = {
+      this.list.push({
         name: this.name,
         storyPoints: this.storyPoints,
         timeEstimate: this.timeEstimate
-      };
-      this.list.push(ticket);
-      /* eslint no-console: 0*/
-      console.log(this.list);
-      // console.log(store.get(.));
+      });
     },
     async getRoomDetails() {
-      const data = await store
-      .get(this.roomName)
-      .then(data => {
-        if (data == null) {
-          return this.$router.push('/404');
+      const data = await store.get(this.roomName).then(data => {
+        if (!data) {
+          return this.$router.push("/404");
         }
         return data;
       });
@@ -113,9 +107,13 @@ export default {
     }
   },
   created() {
-    this.getRoomDetails().then(() => {
-      this.hasLoaded = true;
-    });
+    this.getRoomDetails()
+      .then(() => {
+        this.hasLoaded = true;
+        /* eslint no-console: 0*/
+        // store.getTicketsForRoom(this.roomName);
+        // console.log(this.list);
+      });
   },
   computed: {
     refinedAllTickets() {

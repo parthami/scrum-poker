@@ -41,17 +41,11 @@ export const store = {
   createRoom: (name, tickets) => roomsCollection.doc(name).withConverter(roomConverter).set(
     new Room (name, tickets, store.currentUser.displayName)
   ),
-  get: (id) => roomsCollection.doc(id).withConverter(roomConverter).get().then(function (doc) {
-    if (doc.exists) {
-      const room = doc.data();
-      console.log("Got room: " + room);
-      return room;
-    } else {
-      console.log("No such document!");
-      return null;
-    }
-  }),
-  updateTickets: (name, tickets) => firebase.firestore().batch().update((roomsCollection.doc(name)), {tickets}).commit().then(function () {
+  get: id => roomsCollection.doc(id).withConverter(roomConverter).get().then(doc => { return doc.exists ? doc.data() : null; }),
+  updateTickets: (name, tickets) => firebase.firestore().batch()
+  .update((roomsCollection.doc(name)), {tickets})
+  .commit()
+  .then(() => {
     console.log("updated");
   }).catch(function (error) {
     console.log(name);
@@ -68,7 +62,12 @@ export const store = {
     ['rooms.'+roomName]: Date.now()
   }),
   startFirebaseUi: () => ui.start('#firebaseui-auth-container', uiConfig),
-  getFirebase: () => {return firebase;}
+  getFirebase: () => {return firebase;},
+  getTicketsForRoom: id => { roomsCollection.doc(id).onSnapshot((doc) => { 
+    // console.log('Someone updated the ticket list ');
+    // console.log(doc.data().tickets);
+    return doc.data();
+  })},
 }
 
 // roomsCollection.onSnapshot((roomRef) => {
