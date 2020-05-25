@@ -63,7 +63,8 @@ export default {
     }
   },
   filters: {
-    turnIntoDate(seconds) {1500
+    turnIntoDate(seconds) {
+      1500;
       return timeago.format(seconds);
     }
   },
@@ -86,6 +87,6 @@ h1 {
 }
 
 .list:not(:last-child) {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 </style>

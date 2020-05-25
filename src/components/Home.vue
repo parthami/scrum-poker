@@ -8,7 +8,7 @@
               <h1 class="title">Looking to estimate some tickets?</h1>
               <h2
                 class="subtitle"
-              >Use Scrum Poker to quickly estimate a bunch of tickets with our easy to use UI!</h2>
+              >Try out Scrum Poker to quickly estimate tickets asynchronously with your team!</h2>
             </div>
             <div class="column is-one-third">
               <div class="cards">
@@ -23,6 +23,41 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+          <p class="title features" style="text-align:center">~ Features used ~</p>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="tile is-ancestor">
+        <div class="tile is-3 is-vertical is-parent">
+          <div class="tile is-child box vue">
+            <p class="title">Vue Router</p>
+          </div>
+          <div class="tile is-child box vue">
+            <p class="title">Vue Transitions</p>
+          </div>
+        </div>
+        <div class="tile is-3 is-vertical is-parent">
+          <div class="tile is-child box vue">
+            <p class="title">Vuex</p>
+          </div>
+          <div class="tile is-child box vue">
+            <p class="title"></p>
+          </div>
+        </div>
+        <div class="tile is-6 is-vertical is-parent">
+          <div class="tile is-child box firebase">
+            <p class="title">Firebase Cloud Firestore</p>
+          </div>
+          <div class="tile is-child box firebase">
+            <p class="title">Firebase UI</p>
           </div>
         </div>
       </div>
@@ -47,7 +82,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .card {
   position: relative;
   float: left;
@@ -100,7 +135,6 @@ div[class*="suit"]:after {
 .cards .rotate1 {
   /* animation: rotate10 0.5s; */
   /* animation-fill-mode: forwards; */
-  
 }
 
 .cards .rotate2 {
@@ -149,5 +183,22 @@ div[class*="suit"]:after {
 .logo {
   max-height: 200px;
   max-width: 200px;
+}
+
+.features {
+  font-family: "Raleway", sans-serif;
+}
+
+.tile > .title {
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+}
+
+.vue {
+  background-color: antiquewhite;
+}
+
+.firebase {
+  background-color: #fad7d7;
 }
 </style>
