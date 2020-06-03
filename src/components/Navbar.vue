@@ -13,7 +13,7 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <div @click="signIn" class="button is-primary">
+            <div class="button is-primary">
               <strong>{{ uid }}</strong>
             </div>
 
@@ -35,22 +35,18 @@
 <script>
 import { store } from "../store.js";
 
-/* eslint-disable no-console*/
-
 export default {
   data() {
     return {
       uid: "Sign in",
     };
   },
-  methods: {
-    signIn() {
-      if(store.currentUser) {
+  created() {
+    store.getFirebase().auth().onAuthStateChanged(user => {
+      if(user) {
         this.uid = store.currentUser.displayName;
-      } else {
-        this.$router.push({ name: "signInUp"});
       }
-    }
+    });
   },
 };
 </script>
