@@ -4,6 +4,13 @@ import VueRouter from 'vue-router';
 import { routes } from './routes.js';
 import './../node_modules/bulma/css/bulma.css';
 import { store } from './store';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faHourglassHalf } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faCheckCircle, faHourglassHalf );
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false
 
