@@ -36,7 +36,7 @@ export default {
   watch: {
     remainingTickets: {
       immediate: true,
-      handler(prop, oldVal) {
+      handler(prop) {
         this.showHover = prop.map(e => e.key);
       }
     }
