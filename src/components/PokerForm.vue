@@ -23,20 +23,7 @@
           <progress class="progress is-small is-primary" max="100">15%</progress>
         </template>
         <template v-else>
-          <aside class="list">
-            <template v-for="item in list">
-              <div class="list-item is-active" :key="item.name">{{ item.name }}</div>
-              <transition-group name="slide-left" tag="ul" :key="'t'+item.key">
-                <ul
-                  class="list-item"
-                  v-for="estimate in item.estimates"
-                  :key="item.name+''+estimate.user"
-                >
-                  <li>{{estimate.storyPoints}} | {{estimate.timeEstimate}} ({{estimate.user}})</li>
-                </ul>
-              </transition-group>
-            </template>
-          </aside>
+          <TicketListComponent :list="list" :remainingTickets="remainingTickets" v-on:switchToTicket="currentTicket = list[$event]"></TicketListComponent>
         </template>
         <div class="box">
           <button class="button is-success">Add</button>
@@ -49,9 +36,8 @@
 </template>
 
 <script>
-// import EstimateForm from "./EstimateForm";
-// import CardSelector from "./CardSelector";
 import TicketPopup from "./TicketPopup";
+import TicketListComponent from "./TicketListComponent";
 import { store } from "../store.js";
 
 export default {
@@ -66,12 +52,13 @@ export default {
       storyPoints: "",
       timeEstimate: "",
       hasLoaded: false,
-      showShareModal: false
+      showShareModal: false,
+      toRefineList: this.remainingTickets,
     };
   },
   components: {
-    // CardSelector,
     TicketPopup,
+    TicketListComponent,
     ShareComponent: () => import("./ShareComponent"),
     CompletedComponent: () => import("./CompletedComponent"),
     EstimateForm: () => import("./EstimateForm")
@@ -96,41 +83,54 @@ export default {
       this.list = data.tickets;
       this.roomName = data.name;
       this.listPointer = 0;
-      this.currentTicket = this.list[this.listPointer];
+      this.currentTicket = this.remainingTickets[this.listPointer];
+
       store.updateVisitedRooms(this.roomName);
     },
     updateTickets() {
       if (this.hasLoaded) {
         store.updateTickets(this.roomName, this.list);
-        this.currentTicket = this.list[this.currentTicket.key + 1];
+        this.currentTicket = this.remainingTickets[this.listPointer];
       }
     }
   },
   created() {
-    this.getRoomDetails()
-      .then(() => {
-        this.hasLoaded = true;
-        /* eslint no-console: 0*/
-        // store.getTicketsForRoom(this.roomName);
-        // console.log(this.list);
-      });
+    this.getRoomDetails().then(() => {
+      this.hasLoaded = true;
+    });
   },
   computed: {
     refinedAllTickets() {
       let estimatedTicketsCount = 0;
+
       for (let ticket of this.list) {
         for (let estimate of ticket.estimates) {
-          /* eslint no-console: 0*/
-          console.log(estimate.user);
-          console.log(store.currentUser.displayName);
           if (estimate.user == store.currentUser.displayName) {
             estimatedTicketsCount++;
           }
         }
       }
-      /* eslint no-console: 0*/
-      console.log(estimatedTicketsCount);
+
       return estimatedTicketsCount == this.list.length && this.list.length > 0;
+    },
+    remainingTickets() {
+      let filteredTickets = [];
+
+      for (let ticket of this.list) {
+        var haveIRefinedThis = false;
+
+        for (let estimate of ticket.estimates) {
+          if (estimate.user == store.currentUser.displayName) {
+            haveIRefinedThis = true;
+          }
+        }
+
+        if (!haveIRefinedThis) {
+          filteredTickets.push(ticket);
+        }
+      }
+
+      return filteredTickets;
     }
   }
 };
@@ -141,53 +141,7 @@ export default {
   text-align: center;
 }
 
-.list-item.is-active {
-  background-color: #567fc1;
-  color: #fff;
-}
-
-aside {
-  text-align: left;
-}
-
-.menu-label {
-  font-size: 1em;
-}
-
-.circle {
-  width: 10px;
-  height: 10px;
-  background: lightgreen;
-  border-radius: 50%;
-}
-
 .main {
   min-height: 550px;
-}
-
-.slide-left-enter-active,
-.slide-left-leave-active {
-  transition: all 1s ease;
-}
-
-.slide-left-enter,
-.slide-left-leave {
-  transform: translateX(10px);
-  opacity: 0;
-  color: green;
-}
-
-.slide-left-move {
-  transition: all 1s;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s ease;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
