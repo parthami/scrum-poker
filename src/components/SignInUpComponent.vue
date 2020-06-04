@@ -2,6 +2,7 @@
   <section class="section">
     <div class="columns is-gapless">
       <div class="column has-text-centered left">
+        <progress class="progress is-small is-primary" max="100">15%</progress>
         <div id="firebaseui-auth-container"></div>
       </div>
       <div class="column has-text-centered is-centered right">

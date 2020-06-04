@@ -98,11 +98,7 @@ var uiConfig = {
       }
       return false;
     },
-    uiShown: function() {
-      // The widget is rendered.
-      // Hide the loader. 
-      document.getElementById('loader').style.display = 'none';
-    }
+    uiShown: () => { document.getElementsByTagName('progress')[0].style.display = 'none'; }
   },
   signInFlow: 'popup',
   signInSuccessUrl: '/',
