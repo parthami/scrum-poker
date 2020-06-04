@@ -106,3 +106,4 @@ dist
 config.js
 js/
 css/
+.firebase/
