@@ -28,6 +28,15 @@
       </div>
     </section>
     <section class="section">
+      <home-media-component
+        name="dashboard"
+        png="true"
+        title="Visited Rooms"
+        blurb="A dashboard to view recently visited rooms,sorted by when you last visited them"
+      ></home-media-component>
+    </section>
+    <div class="is-divider"></div>
+    <section class="section">
       <div class="columns">
         <div class="column is-half is-offset-one-quarter">
           <p class="title features" style="text-align:center">~ Features used ~</p>
@@ -48,16 +57,24 @@
           <div class="tile is-child box vue">
             <p class="title">Vuex</p>
           </div>
-          <div class="tile is-child box vue">
+          <div class="tile is-child box vue is-hidden-touch">
             <p class="title"></p>
           </div>
         </div>
-        <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-3 is-vertical is-parent">
           <div class="tile is-child box firebase">
             <p class="title">Firebase Cloud Firestore</p>
           </div>
           <div class="tile is-child box firebase">
             <p class="title">Firebase UI</p>
+          </div>
+        </div>
+        <div class="tile is-3 is-vertical is-parent">
+          <div class="tile is-child box firebase">
+            <p class="title">Firebase Hosting</p>
+          </div>
+          <div class="tile is-child box firebase is-hidden-touch">
+            <p class="title"></p>
           </div>
         </div>
       </div>
@@ -79,7 +96,12 @@
 </template>
 
 <script>
-export default {};
+import HomeMediaComponent from "./HomeMediaComponent.vue";
+export default {
+  components: {
+    HomeMediaComponent
+  }
+};
 </script>
 
 <style scoped>

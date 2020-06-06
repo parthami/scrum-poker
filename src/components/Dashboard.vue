@@ -14,17 +14,17 @@
         v-on:enter="enter"
       >
         <div
-          v-for="([roomName, date], index) in list"
+          v-for="([roomname,rawDate], index) in list"
           class="list"
-          :key="roomName"
+          :key="index"
           :data-index="index"
         >
           <div class="list-item">
             <div class="columns">
-              <router-link class="column is-four-fifths" :to="'room/' + roomName">
-                <a>{{ roomName }}</a>
+              <router-link class="column is-four-fifths" :to="'room/' + roomname">
+                <a>{{ roomname }}</a>
               </router-link>
-              <div class="column">Visited {{ date | turnIntoDate }}</div>
+              <div class="column">Visited {{ rawDate | turnIntoDate }}</div>
             </div>
           </div>
         </div>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-/* eslint-disable no-console*/
 import { store } from "../store.js";
 import * as timeago from "timeago.js";
 import * as Velocity from "velocity-animate";
@@ -49,14 +48,13 @@ export default {
   methods: {
     async loadList() {
       const data = await store.getVisitedRooms();
-      this.list = Object.entries(data.rooms).sort((a, b) => b[1] - a[1]);
+      this.list = Object.entries(data).sort((a, b) => b[1] - a[1]);
     },
     beforeEnter: function(el) {
       el.style.opacity = 0;
     },
     enter: function(el, done) {
       var delay = el.dataset.index * 150;
-      console.log(delay);
       setTimeout(function() {
         Velocity(el, { opacity: 1 }, { complete: done });
       }, delay);
