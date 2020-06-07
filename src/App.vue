@@ -4,13 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Navbar />
     <router-view></router-view>
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>scrum-poker</strong> by Parth Chandratreya
-        </p>
-      </div>
-    </footer>
   </div>
 </template>
 

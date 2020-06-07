@@ -92,6 +92,13 @@
         </div>
       </nav>
     </section>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>scrum-poker</strong> by Parth Chandratreya
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
