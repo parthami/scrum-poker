@@ -6,6 +6,7 @@
         <div class="control">
           <input class="input" type="text" placeholder="e.g. Platform Team" v-model="name" />
         </div>
+        <p v-if="showErrorMessage" class="help is-danger">This room already exists.</p>
       </div>
 
       <div class="field">
@@ -33,11 +34,13 @@ export default {
   data() {
     return {
       name: "",
-      rawTickets: ""
+      rawTickets: "",
+      showErrorMessage: false
     };
   },
   methods: {
     createRoom() {
+      this.showErrorMessage = false;
       var ticketList = this.rawTickets.toString().split(",");
       var tickets = [];
 
@@ -50,15 +53,28 @@ export default {
           estimates: []
         });
       }
-      store.createRoom(this.name, tickets);
-      store.createVisitedRooms();
 
-      this.$router.push({ name: "room", params: { id: this.name } });
+      store.get(this.name).then(result => {
+        if (result) {
+          this.showErrorMessage = true;
+        } else {
+          store.createRoom(this.name, tickets);
+          store.createVisitedRooms();
+          this.$router.push({ name: "room", params: { id: this.name } });
+        }
+      });
     }
   },
   computed: {
     isDisabled() {
       return this.rawTickets == "" || this.name == "";
+    }
+  },
+  watch: {
+    name() {
+      if(this.showErrorMessage) {
+        this.showErrorMessage = false;
+      }
     }
   }
 };
