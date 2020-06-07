@@ -29,6 +29,12 @@
     </section>
     <section class="section">
       <home-media-component
+        name="room"
+        png="true"
+        title="Refining tickets as a team"
+        blurb=""
+      ></home-media-component>
+      <home-media-component
         name="dashboard"
         png="true"
         title="Visited Rooms"

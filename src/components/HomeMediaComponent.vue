@@ -1,6 +1,6 @@
 <template>
   <div class="columns is-desktop is-vcentered">
-    <div class="column is-half" style="padding: 0px 1rem 0 1rem;">
+    <div class="column is-5" style="padding: 0px 1rem 0 1rem;">
       <video v-if="webm" width="auto" height="auto" autoplay="true" loop="true" preload="auto">
         <source :src="getSrc('webm')" type="video/webm" />
         <p>{{ '../assets/' + name +'.webm' }}</p>
